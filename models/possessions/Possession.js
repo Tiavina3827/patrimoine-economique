@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 export default class Possession {
   constructor(possesseur, libelle, valeur, dateDebut, dateFin, tauxAmortissement) {
     this.possesseur = possesseur;
@@ -24,7 +26,27 @@ export default class Possession {
   
     var raison = differenceDate.year + differenceDate.month / 12 + differenceDate.day / 365;
 
-    const result = this.valeur - this.valeur *(raison * this.tauxAmortissement / 100);
+    const result = this.valeur - this.valeur * (raison * this.tauxAmortissement / 100);
     return result;
+  }
+
+  toJSON() {
+    return {
+      possesseur: this.possesseur,
+      libelle: this.libelle,
+      valeur: this.valeur,
+      dateDebut: this.dateDebut.toISOString(),
+      dateFin: this.dateFin.toISOString(),
+      tauxAmortissement: this.tauxAmortissement
+    }
+  }
+
+  async save() {
+    try {
+      await axios.post('http://localhost:3001/add-possession', this.toJSON());
+      console.log('Possession sauvegardée!');
+    } catch (error) {
+      console.error('Erreur lors de la sauvegarde:', error);
+    }
   }
 }
