@@ -3,6 +3,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import './App.css';
 import info from '../../data/data.json'
+
 const App = () => {
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [patrimoineValue, setPatrimoineValue] = useState(null);
@@ -39,60 +40,65 @@ const App = () => {
     };
 
     return (
-        <div className="App">
+        <div className="main">
             <h1>Tableau des Possessions de {data[1].data.possesseur.nom}</h1>
-            <table>
-                <thead>
-                <tr>
-                    <th>Libelle</th>
-                    <th>Valeur Initiale</th>
-                    <th>Date Début</th>
-                    <th>Date Fin</th>
-                    <th>Amortissement</th>
-                    <th>Valeur Actuelle</th>
-                </tr>
-                </thead>
-                <tbody>
-                {data[1].data.possessions.map((possession, index) => {
-                    const dateDebut = new Date(possession.dateDebut).toLocaleDateString();
-                    const dateFin = possession.dateFin ? new Date(possession.dateFin).toLocaleDateString() : 'N/A';
-                    let valeurActuelle = possession.valeur;
+            <div className="TbContainer">
 
-                    if (possession.tauxAmortissement) {
-                        const amortissementYears = (new Date().getTime() - new Date(possession.dateDebut).getTime()) / (1000 * 60 * 60 * 24 * 365);
-                        const amortissementAmount = valeurActuelle * (possession.tauxAmortissement / 100) * amortissementYears;
-                        valeurActuelle = Math.max(0, valeurActuelle - amortissementAmount);
-                    }
+                <table id="Table">
+                    <thead>
+                    <tr>
+                        <th>Libelle</th>
+                        <th>Valeur Initiale</th>
+                        <th>Date Début</th>
+                        <th>Date Fin</th>
+                        <th>Amortissement</th>
+                        <th>Valeur Actuelle</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {data[1].data.possessions.map((possession, index) => {
+                        const dateDebut = new Date(possession.dateDebut).toLocaleDateString();
+                        const dateFin = possession.dateFin ? new Date(possession.dateFin).toLocaleDateString() : 'N/A';
+                        let valeurActuelle = possession.valeur;
 
-                    if (possession.valeurConstante) {
-                        valeurActuelle += possession.valeurConstante;
-                    }
+                        if (possession.tauxAmortissement) {
+                            const amortissementYears = (new Date().getTime() - new Date(possession.dateDebut).getTime()) / (1000 * 60 * 60 * 24 * 365);
+                            const amortissementAmount = valeurActuelle * (possession.tauxAmortissement / 100) * amortissementYears;
+                            valeurActuelle = Math.max(0, valeurActuelle - amortissementAmount);
+                        }
 
-                    return (
-                        <tr key={index}>
-                            <td>{possession.libelle}</td>
-                            <td>{possession.valeur}</td>
-                            <td>{dateDebut}</td>
-                            <td>{dateFin}</td>
-                            <td>{possession.tauxAmortissement ? `${possession.tauxAmortissement}%` : 'N/A'}</td>
-                            <td>{valeurActuelle}</td>
-                        </tr>
-                    );
-                })}
-                </tbody>
-            </table>
-            <div>
-                <DatePicker
-                    selected={selectedDate}
-                    onChange={(date) => setSelectedDate(date)}
-                    dateFormat="yyyy-MM-dd"
-                />
-                <button onClick={calculatePatrimoineValue}>Valider</button>
+                        if (possession.valeurConstante) {
+                            valeurActuelle += possession.valeurConstante;
+                        }
+
+                        return (
+                            <tr key={index}>
+                                <td>{possession.libelle}</td>
+                                <td>{possession.valeur}</td>
+                                <td>{dateDebut}</td>
+                                <td>{dateFin}</td>
+                                <td>{possession.tauxAmortissement ? `${possession.tauxAmortissement}%` : 'N/A'}</td>
+                                <td>{valeurActuelle} Ar</td>
+                            </tr>
+                        );
+                    })}
+                    </tbody>
+                </table>
+                <div className="InptBtn">
+                    <DatePicker
+                        selected={selectedDate}
+                        onChange={(date) => setSelectedDate(date)}
+                        dateFormat="yyyy-MM-dd"
+                        className="DatePicker"
+                    />
+                    <button onClick={calculatePatrimoineValue} className="Validation">Valider</button>
+                </div>
+                {patrimoineValue !== null && (
+                    <h2>Valeur du patrimoine: {patrimoineValue} Ar</h2>
+                )}
             </div>
-            {patrimoineValue !== null && (
-                <h2>Valeur du patrimoine: {patrimoineValue}</h2>
-            )}
         </div>
+
     );
 };
 

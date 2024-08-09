@@ -1,8 +1,11 @@
+@font-face {
+  font-family: 'Quicksand';
+  src: url('../Quicksand-VariableFont_wght.ttf');
+}
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Quicksand';
   line-height: 1.5;
   font-weight: 400;
-
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
@@ -12,27 +15,43 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
+.main{
+  width: 100%;
+  height: 100%;
 }
-a:hover {
-  color: #535bf2;
+.TbContainer{
+  position: absolute;
+  border: 2px solid white;
+  top: 30%;
+  left: 15%;
+  width:70%;
+  height: 50%;
+  border-radius: 10px;
+  animation: appear 2s ease;
 }
-
+h1{
+  border-bottom: 1px solid gold;
+}
+th{
+  color: gold;
+}
+#Table{
+  width: 100%;
+  padding: 2%;
+}
 body {
   margin: 0;
   display: flex;
-  place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  background: #000;
+  color: white;
 }
 
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+  animation: show 3s ease;
 }
 
 button {
@@ -46,23 +65,46 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+.InptBtn{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+.DatePicker{
+  width: 90%;
+  margin: 4%;
+  padding-left: 10%;
+  outline: none;
+  border: none;
+  height: 38px;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+
+}
+.Validation{
+  background: darkgrey;
+  transition:  2s ease;
+}
+.Validation:hover{
+  background: black;
+  color: gold;
+  border: 1px solid gold;
+}
+@keyframes appear {
+  0%{
+    top: 0%;
   }
-  a:hover {
-    color: #747bff;
+  100%{
+    top: 30%;
   }
-  button {
-    background-color: #f9f9f9;
+}
+@keyframes show {
+  0%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 1;
   }
 }
