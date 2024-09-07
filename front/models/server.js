@@ -14,7 +14,7 @@ app.post('/add-possession', (req, res) => {
   const newPossession = req.body;
 
   // Lire le fichier db.json
-  const filePath = path.join(__dirname, 'db.json');
+  const filePath = path.join(__dirname, 'data2.json');
   let data = [];
 
   if (fs.existsSync(filePath)) {

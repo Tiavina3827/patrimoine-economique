@@ -1,4 +1,3 @@
-import axios from 'axios';
 
 export default class Possession {
   constructor(possesseur, libelle, valeur, dateDebut, dateFin, tauxAmortissement) {
